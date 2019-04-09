@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Departamentos</title>
+</head>
+
+<body>
+    <h1>Pesquisa: </h1>
+
+    <table>
+        <tr>
+            <th>Documento</th>
+            <th>Descricao do Documento</th>
+            <th>Nome Aluno</th>
+            <th>Upload</th>
+        </tr>
+        
+        {% for abc in obj %}
+        <tr>
+            <td>{{abc.nome}}</td>
+            <td>{{abc.descricao}}</td>
+            <td>{{abc.pessoa_dono}}</td>
+            <td>{{abc.pessoa_usuario}}</td>
+        </tr>
+    </table>
+
+    {% endfor %}
+
+</body>
+
+</html>
