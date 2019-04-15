@@ -10,12 +10,6 @@
 
 <body>
     <h1>Pesquisa: </h1>
-    <form action="{% url 'buscar_documento' %}" method="POST">
-        {% csrf_token %}
-        <label for="busca">Buscar</label>
-        <input type="search" id="busca" name="consulta">
-        <button type="submit">OK</button>
-    </form>
     <table>
         <tr>
             <th>Documento</th>
