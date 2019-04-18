@@ -37,6 +37,13 @@ class Documento(models.Model):
     pessoa_usuario = models.ForeignKey(User, related_name='pessoa_doc_usuario', verbose_name="Responsável", on_delete=models.PROTECT)
     documento_privado = models.BooleanField(default=False)
 
+    @property
+    def isPDF(self):
+        return self.arquivo.name.endswith(".pdf")
+
+    def isIMG(self):
+        return self.arquivo.name.endswith(".png") or self.arquivo.name.endswith(".jpg") or self.arquivo.name.endswith(".jpeg")  
+
     def __str__(self):
         return self.nome
 
@@ -54,5 +61,5 @@ class Documento_Visibilidade(models.Model):
         verbose_name_plural = 'Visibilidades'
     pessoa = models.ForeignKey(Pessoa, on_delete=models.PROTECT)
     documento = models.ForeignKey(Documento, on_delete = models.PROTECT)
-    visibilidade = models.BooleanField(default=True)
+    visibilidade = models.BooleanField(default=True, verbose_name="Visivel")
 
