@@ -1,9 +1,32 @@
 {% extends "admin/base.html" %}
 
-{% block title %}{{ title }} | {{ site_title|default:_('Gerenciamento Eletronico de Documentos') }}{% endblock %}
+{% block title %}{{ title }} | Gerenciamento Eletrônico de Documentos {% endblock %}
+
+{% block extrastyle %}
+<style>
+#header{
+    background-color: #26804a;
+    color:#ffffff;
+}
+.button, input[type=submit], input[type=button], .submit-row input, a.button{
+    background-color: #51974d;
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: #ffffff;
+}
+.module h2, .module caption, .inline-group h2 {
+    background-color: #91c879;
+}
+div.breadcrumbs {
+    background-color: #91c879;
+}
+</style>
+
+{% endblock %}
+
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">Gerenciamento Eletronico de Documentos</a></h1>
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Gerenciamento Eletrônico de Documentos</a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

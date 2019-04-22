@@ -37,11 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'GED',
+    'admin_reorder',
     'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'admin_reorder.middleware.ModelAdminReorder',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,6 +51,25 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+ADMIN_REORDER = (
+      # First group
+    {'app': 'GED', 'label': 'Documentos',
+     'models': ('GED.Documento',
+     'GED.Anexo',)
+    },
+    # Second group: same app, but different label
+    {'app': 'GED', 'label': 'Administrativo',
+     'models': ('GED.Pessoa',
+     'GED.Departamento',
+     'GED.Funcao')
+    },
+    {'app': 'auth', 'label': 'Usuários',
+     'models': ('auth.User',
+     'auth.Group',)
+    },
+)
+
 
 ROOT_URLCONF = 'GerenciamentoEscolar.urls'
 
