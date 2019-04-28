@@ -1,7 +1,64 @@
 {% extends "admin/base_site.html" %}
 {% load i18n static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
+{% block extrastyle %}
+<style>
+    .table {
+        width: 75% !important;
+    }
+
+    caption {
+        caption-side: top !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: unset !important;
+    }
+
+    .dashboard #content {
+        width: 90%;
+    }
+
+    .tamanho-tabela {
+        width: 100%
+    }
+
+    .flex-button {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #content-related {
+        width: 75%;
+        margin-right: 0;
+
+    }
+
+    #content-main {
+        width: 20%;
+    }
+
+    .table-log {
+        display: flex;
+    }
+
+    #content-related .module {
+        width: 100%;
+    }
+
+    .card-title {
+        color: white;
+        text-decoration:none;
+    }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
 
 {% block coltype %}colMS{% endblock %}
 
@@ -12,75 +69,147 @@
 {% block content %}
 <div id="content-main">
 
-{% if app_list %}
+    {% if app_list %}
     {% for app in app_list %}
-        <div class="app-{{ app.app_label }} module">
-        <table>
-        <caption>
-            <a href="{{ app.app_url }}" class="section" title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">{{ app.name }}</a>
-        </caption>
-        {% for model in app.models %}
-            <tr class="model-{{ model.object_name|lower }}">
+    <div class="app-{{ app.app_label }} module">
+        <table class="tamanho-tabela">
+            <caption>
+                <a href="{{ app.app_url }}" class="section"
+                    title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">{{ app.name }}</a>
+            </caption>
+            {% for model in app.models %}
             {% if model.admin_url %}
-                <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }}</a></th>
+            <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }} {{ model. }}</a></th>
             {% else %}
-                <th scope="row">{{ model.name }}</th>
+            <th scope="row">{{ model.name }}</th>
             {% endif %}
 
-            {% if model.add_url %}
-                <td><a href="{{ model.add_url }}" class="addlink">{% trans 'Adicionar' %}</a></td>
-            {% else %}
-                <td>&nbsp;</td>
-            {% endif %}
 
-            {% if model.admin_url %}
-                {% if model.view_only %}
-                <td><a href="{{ model.admin_url }}" class="viewlink">{% trans 'Visualizar' %}</a></td>
-                {% else %}
-                <td><a href="{{ model.admin_url }}" class="changelink">{% trans 'Alterar' %}</a></td>
-                {% endif %}
-            {% else %}
-                <td>&nbsp;</td>
-            {% endif %}
+
             </tr>
-        {% endfor %}
+            {% endfor %}
         </table>
-        </div>
+    </div>
     {% endfor %}
-{% else %}
+    {% else %}
     <p>{% trans "You don't have permission to view or edit anything." %}</p>
-{% endif %}
+    {% endif %}
 </div>
 {% endblock %}
 
 {% block sidebar %}
 <div id="content-related">
-    <div class="module" id="recent-actions-module">
-        <h2>{% trans 'Recent actions' %}</h2>
-        <h3>{% trans 'My actions' %}</h3>
-            {% load log %}
-            {% get_admin_log 10 as admin_log for_user user %}
-            {% if not admin_log %}
-            <p>{% trans 'None available' %}</p>
-            {% else %}
-            <ul class="actionlist">
-            {% for entry in admin_log %}
-            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
-                {% if entry.is_deletion or not entry.get_admin_url %}
-                    {{ entry.object_repr }}
-                {% else %}
-                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
-                {% endif %}
-                <br>
-                {% if entry.content_type %}
-                    <span class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
-                {% else %}
-                    <span class="mini quiet">{% trans 'Unknown content' %}</span>
-                {% endif %}
-            </li>
+    <div class="flex-button">
+        {% if app_list %}
+
+        {% for app in app_list %}
+        {% for model in app.models %}
+        <div>
+            {% if model.name == "Documentos" %}
+            <a href="{{ model.add_url }}">
+                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card-body" style="display: flex;">
+                        <div >
+                            <h5 class="card-title">Cadastrar Documento</h5>
+                        </div>
+                        <div>
+                            <img src="/media/add-documents.png" height="50" width="50">
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            {% elif model.name == "Pessoas" %}
+            <a href="{{ model.add_url }}">
+                    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                            <div class="card-body" style="display: flex;">
+                                <div>
+                                    <h5 class="card-title">Cadastrar Pessoas</h5>
+                                </div>
+                                <div>
+                                    <img src="/media/add-user.png" height="50" width="50">
+                                </div>
+                            </div>
+                        </div>
+            </a>
+
+            {% elif model.name == "Departamentos" %}
+            <a href="{{ model.add_url }}">
+                    <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+                            <div class="card-body" style="display: flex;">
+                                <div>
+                                    <h5 class="card-title">Cadastrar Departamento</h5>
+                                </div>
+                                <div>
+                                    <img src="/media/add-documents.png" height="50" width="50">
+                                </div>
+                            </div>
+                        </div>
+            </a>
+
+        </div>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
+
+
+    <div class="table-log">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Referente a</th>
+                    <th scope="col">Usuário</th>
+                    <th scope="col">Data</th>
+                </tr>
+            </thead>
+            {% for doc in GED.documentos %}
+            <tbody>
+                <tr>
+                    <td>{{ doc.nome }}</td>
+                    <td>{{ doc.arquivo }}</td>
+                    <td>{{ doc.pessoa_dono }}</td>
+                    <td>{{ doc.pessoa_usuario }}</td>
+                    <td>{{ doc.data_cadastro }}</td>
+                </tr>
+            </tbody>
             {% endfor %}
-            </ul>
-            {% endif %}
+
+        </table>
+        <div>
+            <div class="module" id="recent-actions-module">
+                <h2>{% trans 'Ações Recentes' %}</h2>
+                {% load log %}
+                {% get_admin_log 10 as admin_log for_user user %}
+                {% if not admin_log %}
+                <p>{% trans 'None available' %}</p>
+                {% else %}
+                <ul class="actionlist">
+                    {% for entry in admin_log %}
+                    <li
+                        class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                        {% if entry.is_deletion or not entry.get_admin_url %}
+                        {{ entry.object_repr }}
+                        {% else %}
+                        <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                        {% endif %}
+                        <br>
+                        {% if entry.content_type %}
+                        <span
+                            class="mini quiet">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+                        {% else %}
+                        <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
