@@ -103,25 +103,25 @@
         {% if app_list %}
 
         {% for app in app_list %}
-        {% for model in app.models %}
-        <div>
-            {% if model.name == "Documentos" %}
-            <a href="{{ model.add_url }}">
-                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                    <div class="card-body" style="display: flex;">
-                        <div >
-                            <h5 class="card-title">Cadastrar Documento</h5>
-                        </div>
-                        <div>
-                            <img src="/media/add-documents.png" height="50" width="50">
-                        </div>
-                    </div>
-                </div>
-            </a>
+            {% for model in app.models %}
+                <div>
+                    {% if model.name == "Documentos" %}
+                        <a href="{{ model.add_url }}">
+                            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                                <div class="card-body" style="display: flex;">
+                                    <div >
+                                        <h5 class="card-title">Cadastrar Documento</h5>
+                                    </div>
+                                    <div>
+                                        <img src="/media/add-documents.png" height="50" width="50">
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
 
-            {% elif model.name == "Pessoas" %}
-            <a href="{{ model.add_url }}">
-                    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                    {% elif model.name == "Pessoas" %}
+                    <a href="{{ model.add_url }}">
+                        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
                             <div class="card-body" style="display: flex;">
                                 <div>
                                     <h5 class="card-title">Cadastrar Pessoas</h5>
@@ -131,11 +131,11 @@
                                 </div>
                             </div>
                         </div>
-            </a>
+                    </a>
 
-            {% elif model.name == "Departamentos" %}
-            <a href="{{ model.add_url }}">
-                    <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+                    {% elif model.name == "Departamentos" %}
+                    <a href="{{ model.add_url }}">
+                        <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
                             <div class="card-body" style="display: flex;">
                                 <div>
                                     <h5 class="card-title">Cadastrar Departamento</h5>
@@ -145,19 +145,16 @@
                                 </div>
                             </div>
                         </div>
-            </a>
-
-        </div>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endfor %}
         {% endif %}
-
     </div>
-    {% endfor %}
-    {% endfor %}
-    {% endif %}
 
 
     <div class="table-log">
-
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -167,7 +164,7 @@
                     <th scope="col">Data</th>
                 </tr>
             </thead>
-            {% for doc in GED.documentos %}
+            {% for doc in app_list.GED.documentos %}
             <tbody>
                 <tr>
                     <td>{{ doc.nome }}</td>
@@ -178,8 +175,8 @@
                 </tr>
             </tbody>
             {% endfor %}
-
         </table>
+
         <div>
             <div class="module" id="recent-actions-module">
                 <h2>{% trans 'Ações Recentes' %}</h2>

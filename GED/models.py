@@ -41,6 +41,7 @@ class Documento(models.Model):
     def isPDF(self):
         return self.arquivo.name.endswith(".pdf")
 
+    @property
     def isIMG(self):
         return self.arquivo.name.endswith(".png") or self.arquivo.name.endswith(".jpg") or self.arquivo.name.endswith(".jpeg")  
 
