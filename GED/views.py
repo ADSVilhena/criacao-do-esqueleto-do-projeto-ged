@@ -11,3 +11,7 @@ def buscar_documento(request):
     documentos = Documento.objects.filter(nome__contains = campo_busca).filter(documento_privado=False)
 
     return render(request, 'documentos.html', {'documentos': documentos})
+
+def detalhes_documentos(request, id):
+    documento = Documento.objects.get   (pk=id)
+    return render(request, 'detalhes.html', {'documento': documento})
