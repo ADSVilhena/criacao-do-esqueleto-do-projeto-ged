@@ -66,36 +66,36 @@
 
 {% block breadcrumbs %}{% endblock %}
 
-{% block content %}
-<div id="content-main">
+  {% block content %}
+  <div id="content-main">
 
-    {% if app_list %}
-    {% for app in app_list %}
-    <div class="app-{{ app.app_label }} module">
-        <table class="tamanho-tabela">
-            <caption>
-                <a href="{{ app.app_url }}" class="section"
-                    title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">{{ app.name }}</a>
-            </caption>
-            {% for model in app.models %}
-            {% if model.admin_url %}
-            <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }} {{ model. }}</a></th>
-            {% else %}
-            <th scope="row">{{ model.name }}</th>
-            {% endif %}
+      {% if app_list %}
+      {% for app in app_list %}
+      <div class="app-{{ app.app_label }} module">
+          <table class="tamanho-tabela">
+              <caption>
+                  <a href="{{ app.app_url }}" class="section"
+                      title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">{{ app.name }}</a>
+              </caption>
+              {% for model in app.models %}
+              {% if model.admin_url %}
+              <th scope="row"><a href="{{ model.admin_url }}">{{ model.name }} {{ model. }}</a></th>
+              {% else %}
+              <th scope="row">{{ model.name }}</th>
+              {% endif %}
 
 
 
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    {% endfor %}
-    {% else %}
-    <p>{% trans "You don't have permission to view or edit anything." %}</p>
-    {% endif %}
-</div>
-{% endblock %}
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+      {% endfor %}
+      {% else %}
+      <p>{% trans "You don't have permission to view or edit anything." %}</p>
+      {% endif %}
+  </div>
+  {% endblock %}
 
 {% block sidebar %}
 <div id="content-related">
@@ -103,21 +103,74 @@
         {% if app_list %}
 
         {% for app in app_list %}
-            {% for model in app.models %}
-                <div>
-                    {% if model.name == "Documentos" %}
-                        <a href="{{ model.add_url }}">
-                            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                                <div class="card-body" style="display: flex;">
-                                    <div >
-                                        <h5 class="card-title">Cadastrar Documento</h5>
-                                    </div>
-                                    <div>
-                                        <img src="/media/add-documents.png" height="50" width="50">
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+        {% for model in app.models %}
+        <div>{% if app_list %}
+
+          {% for app in app_list %}
+          {% for model in app.models %}
+          <div>
+              {% if model.name == "Documentos" %}
+              <a href="{{ model.add_url }}">
+                  <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                      <div class="card-body" style="display: flex;">
+                          <div >
+                              <h5 class="card-title">Cadastrar Documento</h5>
+                          </div>
+                          <div>
+                              <img src="/media/add-documents.png" height="50" width="50">
+                          </div>
+                      </div>
+                  </div>
+              </a>
+  
+              {% elif model.name == "Pessoas" %}
+              <a href="{{ model.add_url }}">
+                      <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                              <div class="card-body" style="display: flex;">
+                                  <div>
+                                      <h5 class="card-title">Cadastrar Pessoas</h5>
+                                  </div>
+                                  <div>
+                                      <img src="/media/add-user.png" height="50" width="50">
+                                  </div>
+                              </div>
+                          </div>
+              </a>
+  
+              {% elif model.name == "Departamentos" %}
+              <a href="{{ model.add_url }}">
+                      <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+                              <div class="card-body" style="display: flex;">
+                                  <div>
+                                      <h5 class="card-title">Cadastrar Departamento</h5>
+                                  </div>
+                                  <div>
+                                      <img src="/media/add-documents.png" height="50" width="50">
+                                  </div>
+                              </div>
+                          </div>
+              </a>
+  
+          </div>
+          {% endif %}
+  
+      </div>
+      {% endfor %}
+      {% endfor %}
+      {% endif %}
+            {% if model.name == "Documentos" %}
+            <a href="{{ model.add_url }}">
+                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card-body" style="display: flex;">
+                        <div >
+                            <h5 class="card-title">Cadastrar Documento</h5>
+                        </div>
+                        <div>
+                            <img src="/media/add-documents.png" height="50" width="50">
+                        </div>
+                    </div>
+                </div>
+            </a>
 
                     {% elif model.name == "Pessoas" %}
                     <a href="{{ model.add_url }}">
