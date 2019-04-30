@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import dashboard_pessoas, create_pessoa, create_departamentos, dashboard_departamentos, create_documents, list_documentos, buscar_documento, detalhes_documentos, dashboard, dashboard_documentos, dashboard_busca_documento
+from .views import update_departamento, delete_departamento, delete_pessoa, update_pessoa, delete_documento, update_documento, dashboard_pessoas, create_pessoa, create_departamentos, dashboard_departamentos, create_documents, list_documentos, buscar_documento, detalhes_documentos, dashboard, dashboard_documentos, dashboard_busca_documento
 
 urlpatterns = [
     path('', list_documentos, name = 'list_documento'),
@@ -13,5 +13,11 @@ urlpatterns = [
     path('dashboard/departamentos/novo', create_departamentos, name='create_departamentos'),
     path('dashboard/pessoas', dashboard_pessoas, name='dashboard_pessoas'),
     path('dashboard/pessoa/novo', create_pessoa, name='create_pessoa'),
+    path('dashboard/documentos/update/<int:id>/', update_documento, name='update_documento'),
+    path('dashboard/documentos/delete/<int:id>/', delete_documento, name='delete_documento'),
+    path('dashboard/departamentos/update/<int:id>/', update_departamento, name='update_departamento'),
+    path('dashboard/doepartamentos/delete/<int:id>/', delete_departamento, name='delete_departamento'),
+    path('dashboard/pessoas/update/<int:id>/', update_pessoa, name='update_pessoa'),
+    path('dashboard/pessoas/delete/<int:id>/', delete_pessoa, name='delete_pessoa')
 
 ]

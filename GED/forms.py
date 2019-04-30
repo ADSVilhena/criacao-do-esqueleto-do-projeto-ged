@@ -2,7 +2,7 @@ from django import forms
 from . import models
 
 
-class CreateDocuments(forms.ModelForm):
+class DocumentoForms(forms.ModelForm):
     class Meta:
         model = models.Documento
         fields = ['nome', 'descricao', 'arquivo', 'pessoa_dono', 'pessoa_usuario', 'documento_privado']

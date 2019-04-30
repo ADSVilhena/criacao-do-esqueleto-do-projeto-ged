@@ -11,8 +11,8 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="width:90%;">
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <a href="{{ model.add_url }}">
-                <div class="card text-white bg-success mb-3" style="max-width: 15rem; margin-right: 1rem;">
+            <a href="{% url 'create_documents' %}">
+                <div class="card text-white bg-info mb-3" style="max-width: 15rem; margin-right: 1rem;">
                     <div class="card-body" style="display: flex;">
                         <div>
                             <h5 class="card-title">Cadastrar Documento</h5>
@@ -23,24 +23,24 @@
                     </div>
                 </div>
             </a>
-            <a href="{{ model.add_url }}">
-                <div class="card text-white bg-success mb-3" style="max-width: 15rem; margin-right: 1rem;">
+            <a href="{% url 'create_pessoa' %}">
+                <div class="card text-white bg-danger mb-3" style="max-width: 15rem; margin-right: 1rem;">
                     <div class="card-body" style="display: flex;">
                         <div>
-                            <h5 class="card-title">Cadastrar Documento</h5>
+                            <h5 class="card-title">Cadastrar Pessoa</h5>
                         </div>
                         <div>
-                            <img src="/media/add-documents.png" height="50" width="50">
+                            <img src="/media/add-user.png" height="50" width="50">
                         </div>
                     </div>
                 </div>
             </a>
        
-        <a href="{{ model.add_url }}">
-            <div class="card text-white bg-success mb-3" style="max-width: 15rem;">
+        <a href="{% url 'create_departamentos' %}">
+            <div class="card text-white bg-warning mb-3" style="max-width: 15rem;">
                 <div class="card-body" style="display: flex;">
                     <div>
-                        <h5 class="card-title">Cadastrar Documento</h5>
+                        <h5 class="card-title">Cadastrar Departamento</h5>
                     </div>
                     <div>
                         <img src="/media/add-documents.png" height="50" width="50">
@@ -63,8 +63,6 @@
                         <th>Usuario</th>
                         <th>Data</th>
                         <th>Privado</th>
-                        <th>Visualizar</th>
-                        <th>Excluir</th>
     
                     </tr>
                 </thead>
@@ -77,8 +75,7 @@
                         <td>{{ doc.pessoa_usuario }}</td>
                         <td>{{ doc.data_cadastro }}</td>
                         <td>{{ doc.documento_privado }}</td>
-                        <td>Visualizar</td>
-                        <td>Excuir</td>
+
                     </tr>
                 </tbody>
         {% endfor %}

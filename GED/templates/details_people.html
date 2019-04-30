@@ -34,7 +34,7 @@
                 <th>Departamento</th>
                 <th>Funcao</th>
                 <th>Usuário</th>
-                <th>Visualizar</th>
+                <th>Alterar</th>
                 <th>Excluir</th>
 
             </tr>
@@ -48,8 +48,8 @@
                 <td>{{ people.departamento }}</td>
                 <td>{{ people.funcao }}</td>
                 <td>{{ people.user }}</td>
-                <td>Visualizar</td>
-                <td>Excuir</td>
+                <td><a href="{% url 'update_pessoa' people.id %}">Alterar</a></td>
+                <td><a href="{% url 'delete_pessoa' people.id %}">Excuir</a></td>
             </tr>
         </tbody>
         {% endfor %}

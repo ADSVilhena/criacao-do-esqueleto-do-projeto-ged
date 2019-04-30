@@ -30,7 +30,7 @@
             <tr>
                 <th>Nome</th>
                 <th>Ramal</th>
-                <th>Visualizar</th>
+                <th>Alterar</th>
                 <th>Excluir</th>
 
             </tr>
@@ -40,8 +40,8 @@
             <tr>
                 <td>{{ dpt.nome }}</td>
                 <td>{{ dpt.ramal }}</td>
-                <td>Visualizar</td>
-                <td>Excuir</td>
+                <td><a href="{% url 'update_departamento' dpt.id %}">Alterar</a></td>
+                <td><a href="{% url 'delete_departamento' dpt.id %}">Excuir</a></td>
             </tr>
         </tbody>
         {% endfor %}

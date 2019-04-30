@@ -34,7 +34,7 @@
                 <th>Usuario</th>
                 <th>Data</th>
                 <th>Privado</th>
-                <th>Visualizar</th>
+                <th>Alterar</th>
                 <th>Excluir</th>
 
             </tr>
@@ -48,8 +48,8 @@
                 <td>{{ doc.pessoa_usuario }}</td>
                 <td>{{ doc.data_cadastro }}</td>
                 <td>{{ doc.documento_privado }}</td>
-                <td>Visualizar</td>
-                <td>Excuir</td>
+                <td><a href="{% url 'update_documento' doc.id %}">Alterar</a></td>
+                <td><a href="{% url 'delete_documento' doc.id %}">Excuir</a></td>
             </tr>
         </tbody>
         {% endfor %}

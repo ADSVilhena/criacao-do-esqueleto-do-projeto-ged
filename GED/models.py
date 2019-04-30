@@ -23,7 +23,7 @@ class Pessoa(models.Model):
     email = models.CharField(max_length=200)
     departamento = models.ForeignKey(Departamento, on_delete=models.PROTECT)
     funcao = models.ForeignKey(Funcao, on_delete=models.PROTECT)
-    user = models.OneToOneField(User, on_delete=models.CASCADE,  blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, blank=True)
 
     def __str__(self):
         return self.nome
@@ -32,7 +32,7 @@ class Documento(models.Model):
     nome = models.CharField(max_length=100)
     data_cadastro = models.DateTimeField(auto_now_add=True)
     descricao = models.CharField(max_length=1000)
-    arquivo = models.FileField()
+    arquivo = models.FileField(upload_to='uploads/')
     pessoa_dono = models.ForeignKey(Pessoa, related_name='pessoa_doc_dono', verbose_name="Referente a", on_delete=models.PROTECT)
     pessoa_usuario = models.ForeignKey(User, related_name='pessoa_doc_usuario', verbose_name="Responsável", on_delete=models.PROTECT)
     documento_privado = models.BooleanField(default=False)

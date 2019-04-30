@@ -13,12 +13,12 @@
     }
 </style>
 
-<div class="forms">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <button type="submit">Salvar</button>
-        </form>
+<div class="forms" >
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button type="submit">Salvar</button>
+    </form>
 </div>
 
 {% endblock main %}
