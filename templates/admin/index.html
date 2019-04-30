@@ -164,7 +164,7 @@
                     <th scope="col">Data</th>
                 </tr>
             </thead>
-            {% for doc in app_list.GED.documentos %}
+            {% for doc in app_list.models.GED.Documentos.Objects.all %}
             <tbody>
                 <tr>
                     <td>{{ doc.nome }}</td>
