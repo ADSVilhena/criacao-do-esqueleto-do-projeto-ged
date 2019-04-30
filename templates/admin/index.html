@@ -102,10 +102,6 @@
     <div class="flex-button">
         {% if app_list %}
 
-        {% for app in app_list %}
-        {% for model in app.models %}
-        <div>{% if app_list %}
-
           {% for app in app_list %}
           {% for model in app.models %}
           <div>
@@ -150,61 +146,15 @@
                               </div>
                           </div>
               </a>
-  
           </div>
           {% endif %}
   
-      </div>
+    
       {% endfor %}
       {% endfor %}
       {% endif %}
-            {% if model.name == "Documentos" %}
-            <a href="{{ model.add_url }}">
-                <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-                    <div class="card-body" style="display: flex;">
-                        <div >
-                            <h5 class="card-title">Cadastrar Documento</h5>
-                        </div>
-                        <div>
-                            <img src="/media/add-documents.png" height="50" width="50">
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-                    {% elif model.name == "Pessoas" %}
-                    <a href="{{ model.add_url }}">
-                        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-                            <div class="card-body" style="display: flex;">
-                                <div>
-                                    <h5 class="card-title">Cadastrar Pessoas</h5>
-                                </div>
-                                <div>
-                                    <img src="/media/add-user.png" height="50" width="50">
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    {% elif model.name == "Departamentos" %}
-                    <a href="{{ model.add_url }}">
-                        <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-                            <div class="card-body" style="display: flex;">
-                                <div>
-                                    <h5 class="card-title">Cadastrar Departamento</h5>
-                                </div>
-                                <div>
-                                    <img src="/media/add-documents.png" height="50" width="50">
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
     </div>
+</div>
 
 
     <div class="table-log">

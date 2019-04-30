@@ -11,17 +11,27 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <style>
+
+body{
+    font-size: 13px;
+}
 .row{
-    justify-content: center;
 }
 
 .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto{
-    margin-right: 30px;
+    margin-right: 2%;
+
+}
+@media (min-width: 68px){
+.col-md-2 {
+    flex: 0 0 16.666667%;
+    max-width: 15%;
+}
 }
 </style>
 <body>
     </header>
-        <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="navbar navbar-dark bg-dark shadow-sm" style="margin-bottom: 20px;">
             <div class="container d-flex justify-content-between">
                 <a href="http://localhost:8000/" class="navbar-brand d-flex align-items-center">
                     <strong>Gerenciamento Eletronico de Documentos</strong>
@@ -34,25 +44,25 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
+                        <a class="nav-link active" href="{% url 'dashboard' %}">
                             <span data-feather="home"></span>
                             Inicio <span class="sr-only">(atual)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{% url 'dashboard_documentos' %}">
                             <span data-feather="file"></span>
                             Documentos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{% url 'dashboard_pessoas' %}">
                             <span data-feather="users"></span>
                             Pessoas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{% url 'dashboard_departamentos' %}">
                             <span data-feather="bar-chart-2"></span>
                             Departamentos
                         </a>
@@ -100,7 +110,7 @@
             </div>
         </nav>
         
-        <main role="main col-md-10">
+        <main role="main col-md-10" style="width: 80%;">
             {% block main %}
             {% endblock main %}
         </main>
