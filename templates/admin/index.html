@@ -4,7 +4,7 @@
 {% block extrastyle %}
 <style>
     .table {
-        width: 75% !important;
+        width: 100% !important;
     }
 
     caption {
@@ -99,12 +99,12 @@
 
 {% block sidebar %}
 <div id="content-related">
-    <div class="flex-button">
         {% if app_list %}
 
+    <div style="display: flex; justify-content: space-between">
           {% for app in app_list %}
           {% for model in app.models %}
-          <div>
+          <div >
               {% if model.name == "Documentos" %}
               <a href="{{ model.add_url }}">
                   <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
@@ -146,18 +146,18 @@
                               </div>
                           </div>
               </a>
+              {% endif %}
+
           </div>
-          {% endif %}
   
     
       {% endfor %}
       {% endfor %}
-      {% endif %}
+     
     </div>
-</div>
-
-
-    <div class="table-log">
+     {% endif %}
+<div style="display: flex; ">
+    <div style="width: 80%;" >
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -179,6 +179,7 @@
             </tbody>
             {% endfor %}
         </table>
+    </div>
 
         <div>
             <div class="module" id="recent-actions-module">
@@ -210,6 +211,6 @@
                 {% endif %}
             </div>
         </div>
-    </div>
+</div>
 </div>
 {% endblock %}
