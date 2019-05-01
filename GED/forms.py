@@ -7,8 +7,9 @@ pessoa_usuario = forms.ModelChoiceField(queryset=models.Documento.objects.all(),
 class DocumentoForms(forms.ModelForm):
     class Meta:
         model = models.Documento
-        fields = ['nome', 'descricao', 'arquivo', 'pessoa_dono', 'pessoa_usuario', 'documento_privado']
+        fields = ['nome', 'descricao', 'pessoa_dono', 'pessoa_usuario', 'documento_privado', 'arquivo']
         required = False
+
 class DepartamentoForms(forms.ModelForm):
     class Meta:
         model = models.Departamento
