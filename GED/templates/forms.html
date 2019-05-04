@@ -15,12 +15,16 @@
     }
 </style>
 <h1 align="center" >Adicionar</h1>
-<div class="forms" >
+<div >
     <form method="POST" enctype="multipart/form-data">
+        
         {% csrf_token %}
         {{ form | crispy }}
+
         <button type="submit">Salvar</button>
     </form>
 </div>
+
+
 
 {% endblock main %}

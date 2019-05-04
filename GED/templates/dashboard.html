@@ -56,7 +56,7 @@
 </div>
 <h2>Últimas Inserções</h2>
 <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm" style="font-size: 15px;">
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -73,10 +73,22 @@
                     <tr>
                         <td>{{ doc.nome }}</td>
                         <td>{{ doc.descricao }}</td>
-                        <td>{{ doc.arquivo }}</td>
+                        {% if doc.isPDF %}
+                        <td><a href="{{ documento.arquivo }}"><img src="/media/images/pdf.png" height="35" alt=""></a></td>
+                        {% elif doc.isIMG %}
+                        <td><a download href="{{ documento.arquivo }}"><img src="/media/images/image.png" height="35" alt=""></a></td>
+                        {% else %}
+                        <td><a download href="{{ documento.arquivo }}"><img src="/media/images/document.png" height="35" alt=""></a></td>
+                        {% endif %}
                         <td>{{ doc.pessoa_usuario }}</td>
                         <td>{{ doc.data_cadastro }}</td>
-                        <td>{{ doc.documento_privado }}</td>
+                        {% if doc.documento_privado is True %}
+                        <td><img src="/media/images/true.png" height="20" alt=""></td>
+                        {% else %}
+                        <td><img src="/media/images/false.png" height="20" alt=""></td>
+                        {% endif %}
+                        <td><a href="{% url 'update_documento' doc.id %}"><button type="button"
+                                    class="btn btn-outline-primary">Alterar</button></a></td>
 
                     </tr>
                 </tbody>

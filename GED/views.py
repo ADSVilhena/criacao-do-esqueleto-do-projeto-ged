@@ -49,7 +49,6 @@ def buscar_documento(request):
     documentos = Documento.objects.filter(nome__contains = campo_busca).filter(documento_privado=False)
     return render(request, 'documentos.html', {'documentos': documentos})
 
-@login_required
 def detalhes_documentos(request, id):
     documento = Documento.objects.get   (pk=id)
     return render(request, 'detalhes.html', {'documento': documento})
@@ -62,14 +61,14 @@ def dashboard(request):
 @login_required
 def dashboard_documentos(request):
     documentos = Documento.objects.filter()
-    return render(request, 'model-details.html', {'documentos':documentos})
+    return render(request, 'details_documentos.html', {'documentos':documentos})
 
 @login_required
 def dashboard_busca_documento(request):
     campo_busca = request.POST['consulta']
     documentos = Documento.objects.filter(nome__contains = campo_busca)
 
-    return render(request, 'model-details.html', {'documentos': documentos})
+    return render(request, 'details_documentos.html', {'documentos': documentos})
 
 @login_required
 def create_documents(request):
@@ -117,27 +116,25 @@ def update_documento(request, id):
 @login_required
 def delete_documento(request, id):
     documento = Documento.objects.get(id=id)
-    if request.method == 'POST':
-        documento.delete()
-        return redirect('dashboard_documentos')
-    return render(request, 'message.html', {'documento': documento})    
+    documento.delete()
+    return redirect('dashboard_documentos')
 
-@login_required
-def update_documento(request, id):
-    documento = Documento.objects.get (id=id)
-    form = DocumentoForms(request.POST or None,  instance=documento)
-    if form.is_valid():
-        form.save()
-        return redirect('dashboard_documentos')
-    return render(request, 'forms.html', {'form': form, 'documento': documento})
+#@login_required    
+#def update_documento(request, id):
+#    documento = Documento.objects.get (id=id)
+#    form = DocumentoForms(request.POST or None,  instance=documento)
+#    if form.is_valid():
+#        form.save()
+#        return redirect('dashboard_documentos')
+#    return render(request, 'forms.html', {'form': form, 'documento': documento})
 
-@login_required
-def delete_documento(request, id):
-    documento = Documento.objects.get(id=id)
-    if request.method == 'POST':
-        documento.delete()
-        return redirect('dashboard_documentos')
-    return render(request, 'message.html', {'documento': documento})    
+#@login_required
+#def delete_documento(request, id):
+#    documento = Documento.objects.get(id=id)
+#    if request.method == 'POST':
+#        documento.delete()
+#        return redirect('dashboard_documentos')
+#    return render(request, 'message.html', {'documento': documento})    
 
 @login_required
 def update_pessoa(request, id):

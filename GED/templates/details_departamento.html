@@ -31,8 +31,8 @@
             <tr>
                 <th>Nome</th>
                 <th>Ramal</th>
-                <th>Alterar</th>
-                <th>Excluir</th>
+                <th></th>
+                <th></th>
 
             </tr>
         </thead>
@@ -41,8 +41,8 @@
             <tr>
                 <td>{{ dpt.nome }}</td>
                 <td>{{ dpt.ramal }}</td>
-                <td><a href="{% url 'update_departamento' dpt.id %}">Alterar</a></td>
-                <td><a href="{% url 'delete_departamento' dpt.id %}">Excuir</a></td>
+                <td><a href="{% url 'update_departamento' dpt.id %}"><button type="button" class="btn btn-outline-primary">Alterar</button></a></td>
+                <td><a href="{% url 'delete_departamento' dpt.id %}" onclick="return confirm('Deseja Remover {{ dpt.nome }} ?')"><button type="button" class="btn btn-outline-danger">Excluir</button></a></td>
             </tr>
         </tbody>
         {% endfor %}

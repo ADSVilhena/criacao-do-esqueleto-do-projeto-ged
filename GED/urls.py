@@ -16,7 +16,7 @@ urlpatterns = [
     path('dashboard/documentos/update/<int:id>/', update_documento, name='update_documento'),
     path('dashboard/documentos/delete/<int:id>/', delete_documento, name='delete_documento'),
     path('dashboard/departamentos/update/<int:id>/', update_departamento, name='update_departamento'),
-    path('dashboard/doepartamentos/delete/<int:id>/', delete_departamento, name='delete_departamento'),
+    path('dashboard/departamentos/delete/<int:id>/', delete_departamento, name='delete_departamento'),
     path('dashboard/pessoas/update/<int:id>/', update_pessoa, name='update_pessoa'),
     path('dashboard/pessoas/delete/<int:id>/', delete_pessoa, name='delete_pessoa'),
 
