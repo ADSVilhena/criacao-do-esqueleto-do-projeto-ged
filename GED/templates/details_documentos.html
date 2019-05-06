@@ -61,7 +61,7 @@
                 <td><a href="{% url 'update_documento' doc.id %}"><button type="button"
                             class="btn btn-outline-primary">Alterar</button></a></td>
                 <td><a href="{% url 'delete_documento' doc.id %}"
-                        onclick="return confirm('Deseja Remover {{ documento.nome }}')"><button type="button"
+                        onclick="return confirm('Deseja Remover {{ doc.nome }} ?')"><button type="button"
                             class="btn btn-outline-danger">Excluir</button></a></td>
             </tr>
         </tbody>
