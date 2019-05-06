@@ -4,7 +4,7 @@
 <div class="album py-5 bg-light">
     <div class="container">
 
-        <div class="row">
+      ''  <div class="row">
             {% for doc in documentos %}
             <div class="col-md-3">
                 <div class="card mb-4 shadow-sm">
@@ -17,8 +17,6 @@
                         <img src="/media/images/document.png" height="50" alt="">
                         {% endif %}
                     </div>
-
-
                     <div class="card-body">
                         <p class="card-text mb-0">{{ doc.nome }}</p>
                         <p style="font-size: 14px">{{ doc.descricao | slice:":25" }}...</p>

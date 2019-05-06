@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from .models import Documento, Departamento, Pessoa
-from .forms import DocumentoForms, DepartamentoForms, PessoaForms
+from .models import Documento, Departamento, Pessoa,  Funcao
+from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms
 
 def login_user(request):
     next = request.GET.get('next', '/dashboard') 
@@ -203,11 +203,6 @@ def delete_documento(request, id):
 #        return redirect('dashboard_documentos')
 #    return render(request, 'message.html', {'documento': documento})    
 
-
-
-
-
-
 @login_required
 def delete_pessoa(request, id):
     pessoa = Pessoa.objects.get (id=id)
@@ -247,3 +242,45 @@ def delete_departamento(request, id):
     departamento = Departamento.objects.get (id=id)
     departamento.delete()
     return redirect('dashboard_departamentos')
+
+@login_required
+def dashboard_funcao(request):
+    funcao = Funcao.objects.all()
+    return render(request, 'details_funcao.html', {'funcao': funcao})
+
+@login_required
+def create_funcao(request):
+    if request.method == 'POST':
+        funcao_form = FuncaoForms(request.POST)
+        if funcao_form.is_valid():
+            funcao_model = funcao_form.save(commit=False)
+            funcao_model.save()
+            return redirect('dashboard_funcao')
+        else:
+            context = {'funcao_form' : funcao_form}
+            return render(request, 'forms/funcao_form.html', context)
+    else:
+        funcao_form = FuncaoForms()
+        context = {'funcao_form':funcao_form}
+        return render(request, 'forms/funcao_form.html', context)
+
+@login_required
+def update_funcao(request, id):
+    funcao = Funcao.objects.get (id=id)
+    funcao_form = FuncaoForms(request.POST or None,  instance=funcao)
+
+    if funcao_form.is_valid():
+        funcao_model = funcao_form.save(commit=False)
+        funcao_model.save()
+        return redirect('dashboard_funcao')
+    else:
+        context = {'funcao_form':funcao_form}
+        return render(request, 'forms/funcao_form.html', context)
+    
+    return render(request, 'forms/funcao_form.html', {'funcao_form': funcao_form, 'funcao': funcao})
+
+@login_required
+def delete_funcao(request, id):
+    funcao = Funcao.objects.get(id=id)
+    funcao.delete()
+    return redirect('dashboard_funcao')

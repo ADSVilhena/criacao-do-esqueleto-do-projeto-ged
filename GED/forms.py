@@ -25,7 +25,7 @@ class DepartamentoForms(ModelForm):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
-
+            self.fields['ramal'].required = False
 
     class Meta:
         model = models.Departamento
@@ -42,10 +42,16 @@ class PessoaForms(ModelForm):
             self.fields['user'].required = False
             self.fields['departamento'].required = False
             self.fields['telefone'].required = False
-
-
-
-
     class Meta:
         model = models.Pessoa
+        fields = '__all__'
+
+class FuncaoForms(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+         
+    class Meta:
+        model = models.Funcao
         fields = '__all__'

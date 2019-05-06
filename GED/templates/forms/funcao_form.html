@@ -18,12 +18,12 @@
 {% endif %}
 <form method="post" enctype="multipart/form-data"> {% csrf_token %}
     <div class="container mt-3 mb-3">
-        {% if departamento_form.errors %}
-        {{ departamento_form.errors }}
+        {% if funcao_form.errors %}
+        {{ funcao_form.errors }}
         {% endif %}
-        <h2>Informações sobre o Departamento</h2>
+        <h2>Informações sobre a Função</h2>
         <hr />
-        {{departamento_form.as_p}}
+        {{funcao_form.as_p}}
         <hr />
         <button type="submit" class="btn btn-primary">Salvar</button>
 </form>

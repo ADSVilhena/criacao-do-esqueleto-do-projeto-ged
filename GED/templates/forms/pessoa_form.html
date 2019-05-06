@@ -2,14 +2,42 @@
 
 {% block main %}
 
+<div class="modal fade" id="funcaoModal" tabindex="-1" role="dialog" aria-labelledby="departamentoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="departamentoModalLabel">Informações sobre o Departamento</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                        <div class="container mt-3 mb-3">
+                            {% if departamento_form.errors %}
+                            {{ departamento_form.errors }}
+                            {% endif %}
+                            <h2>Informações sobre o Departamento</h2>
+                            <hr />
+                            {{departamento_form.as_p}}
+                            <hr />
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 <style>
-    .text-label{
-        margin-bottom: 15px;
+    .text-label {
+        margin-bottom: 5px;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 13px;
     }
 </style>
-    
+
 
 {% if saved %}
 <div class="alert alert-success container mt-4" role="alert">
@@ -23,23 +51,44 @@
         {% endif %}
         <h2>Informações sobre o Pessoa</h2>
         <hr />
-        <label>Nome: </label>
+        <label class="text-label">Nome: </label>
         {{pessoa_form.nome}}
-        <label>Endereço: </label>
+        <label class="text-label">Endereço: </label>
         {{pessoa_form.endereco}}
-        <label>Telefone:: </label>
-        {{pessoa_form.telefone}}
-        <label>Email: </label>
-        {{pessoa_form.email}}
-        <label>Departamento: </label>
-        {{pessoa_form.departamento}}
-        <label>Função: </label>
-        {{pessoa_form.funcao}}
-        <label>Usuário: </label>
+        <div style="display: flex;">
+            <div style="width: 30%; margin-right: 5%;">
+                <label class="text-label">Telefone:: </label>
+                {{pessoa_form.telefone}}
+            </div>
+            <div style="width: 70%;">
+                <label class="text-label">Email: </label>
+                {{pessoa_form.email}}
+            </div>
+        </div>
+        <div style="display: flex;">
+            <div style="margin-right: 5%;">
+                <label class="text-label">Departamento: </label>
+                {{pessoa_form.departamento}}
+                <a data-toggle="modal" data-target="#departamentoModal">
+                    <img src="/media/add.png" alt="" height="15" style="margin-top: 5px; margin-left: 5px;">
+                </a>
+            </div>
+            <div>
+                <label class="text-label">Função: </label>
+                {{pessoa_form.funcao}}
+                
+                <a href="{% url 'create_funcao' %}" data-toggle="modal" data-target="#funcaoModal">
+                    <img src="/media/add.png" alt="" height="15" style="margin-top: 5px; margin-left: 5px;">
+                </a>
+            </div>
+        </div>
+
+        <label class="text-label">Usuário: </label>
         {{pessoa_form.user}}
         <hr />
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="submit" class="btn btn-success">Salvar</button>
 </form>
 </div>
+
 
 {% endblock main %}
