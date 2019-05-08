@@ -47,6 +47,8 @@ class Documento(models.Model):
 
     def __str__(self):
         return self.nome
+        
+    
 
 class Anexo(models.Model):
     nome = models.CharField(max_length=100)

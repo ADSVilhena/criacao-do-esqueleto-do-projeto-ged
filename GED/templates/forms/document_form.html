@@ -31,15 +31,24 @@
             <div style="width: 47.5%; margin-right: 5%;">
                 <label class="text-label">Referente a</label>
                 {{ documento_form.pessoa_dono }}
-                <a href="">ADD</a>
+           
             </div>
+            {% if documento %}
             <div style="width: 47.5%;">
                 <label class="text-label">Usuario</label>
                 {{ documento_form.pessoa_usuario }}
-                <a href="{% url 'create_pessoa' %}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        ADD
-                </a> 
             </div>
+            {% else %}
+            <div style="width: 47.5%;">
+                <label class="text-label">Usuario</label> 
+            <div class="form-group">
+                <input value ="{{ user.username }}" type="text" class="form-control" />
+              </div>
+            </div>
+            {% endif %}
+            
+            
+
         </div>
 
         <div  style="display: flex;">

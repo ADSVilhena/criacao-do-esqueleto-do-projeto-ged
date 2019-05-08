@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.db.models import Q
 from .models import Documento, Departamento, Pessoa,  Funcao
 from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms
 
@@ -55,12 +56,12 @@ def detalhes_documentos(request, id):
 
 @login_required
 def dashboard(request):
-    documentos = Documento.objects.filter()
+    documentos = Documento.objects.filter(pessoa_usuario=request.user)
     return render(request, 'dashboard.html', {'documentos':documentos})
 
 @login_required
 def dashboard_documentos(request):
-    documentos = Documento.objects.filter()
+    documentos = Documento.objects.filter(pessoa_usuario=request.user)
     return render(request, 'details_documentos.html', {'documentos':documentos})
 
 @login_required
@@ -76,6 +77,7 @@ def create_documents(request):
         documento_form = DocumentoForms(request.POST, request.FILES)
         if documento_form.is_valid():
             documento_model = documento_form.save(commit=False)
+            documento_model.pessoa_usuario = request.user
             documento_model.save()
             return redirect('dashboard_documentos')
         else:
