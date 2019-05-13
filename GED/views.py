@@ -57,12 +57,12 @@ def detalhes_documentos(request, id):
 
 @login_required
 def dashboard(request):
-    documentos = Documento.objects.filter(pessoa_usuario=request.user)
+    documentos = Documento.objects.filter(pessoa_usuario=request.user) | Documento.objects.filter(pessoa_compartilha=request.user) | Documento.objects.filter(documento_privado=False).order_by('-data_cadastro')
     return render(request, 'dashboard.html', {'documentos':documentos})
 
 @login_required
 def dashboard_documentos(request):
-    documentos = Documento.objects.filter()
+    documentos = Documento.objects.filter(pessoa_usuario=request.user) | Documento.objects.filter(pessoa_compartilha=request.user) | Documento.objects.filter(documento_privado=False)
     return render(request, 'details_documentos.html', {'documentos':documentos})
 
 @login_required

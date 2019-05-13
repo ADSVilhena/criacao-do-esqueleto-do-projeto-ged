@@ -81,7 +81,7 @@
                         <td><a download href="{{ documento.arquivo }}"><img src="/media/images/document.png" height="35" alt=""></a></td>
                         {% endif %}
                         <td>{{ doc.pessoa_usuario }}</td>
-                        <td>{{ doc.data_cadastro }}</td>
+                        <td>{{ doc.data_cadastro|date:"d/m/y" }}</td>
                         {% if doc.documento_privado is True %}
                         <td><img src="/media/images/true.png" height="20" alt=""></td>
                         {% else %}

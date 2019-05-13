@@ -45,6 +45,7 @@
                 <input value ="{{ user.username }}" type="text" class="form-control" />
               </div>
             </div>
+          
             {% endif %}
             
             
@@ -61,8 +62,16 @@
                 {{ documento_form.documento_privado }}
             </div>
         </div>
+
+        <label class="text-label">Compartihar para Usuario</label>
+        {{ documento_form.pessoa_compartilha }}
         <hr />
         <button type="submit" class="btn btn-primary">Salvar</button>
+        {% if documento %}
+        <a href="{% url 'delete_documento' documento.id %}"
+                        onclick="return confirm('Deseja Remover {{ documento.nome }} ?')"><button type="button"
+                            class="btn btn-outline-danger">Excluir</button></a> {% endif %}
+
 </form>
 </div>
 

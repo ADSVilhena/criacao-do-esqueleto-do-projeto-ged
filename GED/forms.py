@@ -10,7 +10,10 @@ class DocumentoForms(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
+            self.fields['pessoa_dono'].required = False
+            self.fields['pessoa_compartilha'].required = False
             self.fields['pessoa_usuario'].required = False
+
 
             if not isinstance(field.widget, FileInput):
                 field.widget.attrs.update({'class': 'form-control'})

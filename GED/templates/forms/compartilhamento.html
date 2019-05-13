@@ -1,0 +1,26 @@
+{% extends "base-menu.html" %}
+
+{% block main %}
+
+<style>
+    .text-label{
+        margin-bottom: 5px;
+        margin-top: 10px;
+        font-size: 15px;
+    }
+</style>
+    
+
+
+<form method="post" enctype="multipart/form-data"> {% csrf_token %}
+    <div class="container mt-3 mb-3">
+
+        <h2>Informações sobre o Compartilhamento</h2>
+        <hr />
+        {{compartihamento_form.as_p}}
+        <hr />
+        <button type="submit" class="btn btn-primary">Salvar</button>
+</form>
+</div>
+
+{% endblock main %}

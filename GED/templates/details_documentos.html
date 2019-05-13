@@ -31,9 +31,11 @@
                 <th>Nome</th>
                 <th>Descricao</th>
                 <th>Arquivo</th>
-                <th>Usuario</th>
                 <th>Data</th>
+                <th>Usuario</th>
+                <th>Compartihado</th>
                 <th>Privado</th>
+
                 <th></th>
                 <th></th>
 
@@ -51,8 +53,11 @@
                 {% else %}
                 <td><a download href="{{ documento.arquivo }}"><img src="/media/images/document.png" height="35" alt=""></a></td>
                 {% endif %}
+                <td>{{ doc.data_cadastro|date:"d/m/y"}}</td>
                 <td>{{ doc.pessoa_usuario }}</td>
-                <td>{{ doc.data_cadastro }}</td>
+                <td>{{ doc.pessoa_compartilha }}</td>
+                    
+
                 {% if doc.documento_privado is True %}
                 <td><img src="/media/images/true.png" height="20" alt=""></td>
                 {% else %}
