@@ -10,11 +10,25 @@ class DocumentoForms(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
+            self.fields['pessoa_usuario'].required = False
+
             if not isinstance(field.widget, FileInput):
-                self.fields['pessoa_usuario'].required = False
                 field.widget.attrs.update({'class': 'form-control'})
             else:
                 field.widget.attrs.update({'class': 'form-control-file'})
+                field.widget.attrs.update({'multiple': True})
+                
+# class DocumentoForms(ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['arquivo'] = MultipleFilesField(widget=ClearableMultipleFilesInput(attrs={'multiple': True}))
+#         for key, field in self.fields.items():
+#             if not isinstance(field.widget, FileInput):
+#                 self.fields['pessoa_usuario'].required = False
+#                 field.widget.attrs.update({'class': 'form-control'})
+#             else:
+#                 field.widget.attrs.update({'class': 'form-control-file'})
+                
 
     class Meta:
         model = models.Documento

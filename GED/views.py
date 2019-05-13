@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.db.models import Q
+from django.views.generic.edit import FormView
 from .models import Documento, Departamento, Pessoa,  Funcao
 from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms
 
@@ -61,7 +62,7 @@ def dashboard(request):
 
 @login_required
 def dashboard_documentos(request):
-    documentos = Documento.objects.filter(pessoa_usuario=request.user)
+    documentos = Documento.objects.filter()
     return render(request, 'details_documentos.html', {'documentos':documentos})
 
 @login_required
@@ -76,10 +77,15 @@ def create_documents(request):
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES)
         if documento_form.is_valid():
-            documento_model = documento_form.save(commit=False)
-            documento_model.pessoa_usuario = request.user
-            documento_model.save()
-            return redirect('dashboard_documentos')
+            for field in request.FILES.keys():
+                for formfile in request.FILES.getlist(field):
+                    arquivo = Documento(arquivo=formfile)
+                    arquivo.save()
+                
+                documento_model = documento_form.save(commit=False)
+                documento_model.pessoa_usuario = request.user
+                documento_model.save()
+                return redirect('dashboard_documentos')
         else:
             context = {'documento_form':documento_form}
             return render(request, 'forms/document_form.html', context)

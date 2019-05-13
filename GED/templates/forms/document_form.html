@@ -16,7 +16,7 @@
     O evento foi salvo com sucesso!
 </div>
 {% endif %}
-<form method="post" enctype="multipart/form-data"> {% csrf_token %}
+<form method="post" enctype="multipart/form-data" multiple> {% csrf_token %}
     <div class="container mt-3 mb-3">
         {% if documento_form.errors %}
         {{ documento_form.errors }}

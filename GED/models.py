@@ -32,7 +32,7 @@ class Documento(models.Model):
     nome = models.CharField(max_length=100)
     data_cadastro = models.DateTimeField(auto_now_add=True)
     descricao = models.CharField(max_length=1000, null = True, blank=True)
-    arquivo = models.FileField(upload_to='uploads/')
+    arquivo = models.FileField(upload_to='uploads/', blank=True)
     pessoa_dono = models.ForeignKey(Pessoa, related_name='pessoa_doc_dono', verbose_name="Referente a", on_delete=models.PROTECT, null = True)
     pessoa_usuario = models.ForeignKey(User, related_name='pessoa_doc_usuario', verbose_name="Responsável", on_delete=models.PROTECT, null = True)
     documento_privado = models.BooleanField(default=False)
