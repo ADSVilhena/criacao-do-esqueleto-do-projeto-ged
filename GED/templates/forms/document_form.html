@@ -1,0 +1,90 @@
+{% extends "base-menu.html" %}
+
+{% block main %}
+
+<style>
+    .text-label{
+        margin-bottom: 15px;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+</style>
+    
+
+{% if saved %}
+<div class="alert alert-success container mt-4" role="alert">
+    O evento foi salvo com sucesso!
+</div>
+{% endif %}
+<form method="post" enctype="multipart/form-data" multiple> {% csrf_token %}
+    <div class="container mt-3 mb-3">
+        {% if documento_form.errors %}
+        {{ documento_form.errors }}
+        {% endif %}
+        <h2>Informações sobre o evento</h2>
+        <hr />
+        <label class="text-label">Nome</label>
+        {{ documento_form.nome }}
+        <label class="text-label">Descrição</label>
+        {{ documento_form.descricao }}
+        <div style="display: flex;">
+            <div style="width: 47.5%; margin-right: 5%;">
+                <label class="text-label">Referente a</label>
+                {{ documento_form.pessoa_dono }}
+           
+            </div>
+            {% if documento %}
+            <div style="width: 47.5%;">
+                <label class="text-label">Usuario</label>
+                {{ documento_form.pessoa_usuario }}
+            </div>
+            {% else %}
+            <div style="width: 47.5%;">
+                <label class="text-label">Usuario</label> 
+            <div class="form-group">
+                <input value ="{{ user.username }}" type="text" class="form-control" />
+              </div>
+            </div>
+            {% endif %}
+            
+
+        </div>
+
+        <div  style="display: flex;">
+
+            <div style="margin-right: 5%;">
+                {% if documento %}
+                <label class="text-label">Referente a</label>
+                {{anexo_form.arquivo}}   
+
+                     {% for ar in anexos %}
+                        <p><a download href="{{ ar.arquivo.url }}">{{ ar.arquivo.url }}</a></p>
+                      {% endfor %}
+
+
+                 {% else %}
+                    {{anexo_form.arquivo}}   
+
+                {% endif %}
+          
+            </div>
+
+            <div style="width: 30px !important;">
+                <label class="text-label" style=" margin-bottom: 8px;">Privado</label>
+                {{ documento_form.documento_privado }}
+            </div>
+        </div>
+
+        <label class="text-label">Compartihar para Usuario</label>
+        {{ documento_form.pessoa_compartilha }}
+        <hr />
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        {% if documento %}
+        <a href="{% url 'delete_documento' documento.id %}"
+                        onclick="return confirm('Deseja Remover {{ documento.nome }} ?')"><button type="button"
+                            class="btn btn-outline-danger">Excluir</button></a> {% endif %}
+
+</form>
+</div>
+
+{% endblock main %}

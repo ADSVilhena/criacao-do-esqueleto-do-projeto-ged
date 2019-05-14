@@ -1,0 +1,76 @@
+{% extends "base-menu.html" %}
+{% block main %}
+
+<style>
+    .search-field {
+        margin-bottom: 20px;
+        display: flex;
+    }
+</style>
+
+<div class="search-field">
+
+    <form action="{% url 'dashboard_busca_documentos' %}" method="POST" class="form-inline my-2 my-lg-0">
+        {% csrf_token %}
+        <input name="consulta" class="form-control mr-sm-2" type="search" placeholder="Pesquise..." aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+
+    <div style="margin-left: 40%">
+        <form action="{% url 'create_documents' %}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Inserir Novo
+                Documento</button>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table  table-hover">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descricao</th>
+                <th>Arquivo</th>
+                <th>Data</th>
+                <th>Usuario</th>
+                <th>Compartihado</th>
+                <th>Privado</th>
+
+                <th></th>
+                <th></th>
+
+            </tr>
+        </thead>
+        {% for doc in documentos %}
+        <tbody>
+            <tr>
+                <td>{{ doc.nome }}</td>
+                <td>{{ doc.descricao }}</td>
+                {% if doc.isPDF %}
+                <td><a href="{{ documento.arquivo }}"><img src="/media/images/pdf.png" height="35" alt=""></a></td>
+                {% elif doc.isIMG %}
+                <td><a download href="{{ documento.arquivo }}"><img src="/media/images/image.png" height="35" alt=""></a></td>
+                {% else %}
+                <td><a download href="{{ documento.arquivo }}"><img src="/media/images/document.png" height="35" alt=""></a></td>
+                {% endif %}
+                <td>{{ doc.data_cadastro|date:"d/m/y"}}</td>
+                <td>{{ doc.pessoa_usuario }}</td>
+                <td>{{ doc.pessoa_compartilha }}</td>
+                    
+
+                {% if doc.documento_privado is True %}
+                <td><img src="/media/images/true.png" height="20" alt=""></td>
+                {% else %}
+                <td><img src="/media/images/false.png" height="20" alt=""></td>
+                {% endif %}
+                <td><a href="{% url 'update_documento' doc.id %}"><button type="button"
+                            class="btn btn-outline-primary">Alterar</button></a></td>
+                <td><a href="{% url 'delete_documento' doc.id %}"
+                        onclick="return confirm('Deseja Remover {{ doc.nome }} ?')"><button type="button"
+                            class="btn btn-outline-danger">Excluir</button></a></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+{% endblock main %}
