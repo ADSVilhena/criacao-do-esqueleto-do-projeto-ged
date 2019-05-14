@@ -112,10 +112,11 @@ def update_documento(request, id):
     documento = Documento.objects.get(id=id)
     anexos = Anexo.objects.select_related('documento').filter(documento__id=id)
     documento_form = DocumentoForms(instance=documento)
-    anexo_form = AnexoForm(anexos)
+    anexo_form = AnexoForm(request.POST, request.FILES)
+
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES, instance=documento)
-        anexo_form = AnexoForm(request.POST, request.FILES, instance=anexo)
+        anexo_form = AnexoForm(request.POST, request.FILES)
         if documento_form.is_valid():
             documento_model = documento_form.save(commit=False)
             documento_model.save()
@@ -126,7 +127,7 @@ def update_documento(request, id):
 #
             return redirect('dashboard_documentos')
 
-    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento, 'anexos': anexos})
+    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento, 'anexo_form': anexo_form, 'anexos': anexos})
 
 
 # def create_documents(request):

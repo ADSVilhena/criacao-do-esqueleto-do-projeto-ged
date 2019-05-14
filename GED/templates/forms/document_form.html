@@ -51,13 +51,24 @@
         </div>
 
         <div  style="display: flex;">
-            <div style="margin-right: 5%;">
 
+            <div style="margin-right: 5%;">
+                {% if documento %}
                 <label class="text-label">Referente a</label>
-                {% for ar in anexos %}
-                <a class="btn btn-outline-secondary" download href="{{ ar.arquivo.url }}">{{ ar.arquivo.url }}</a>
-                {% endfor %}          
+                {{anexo_form.arquivo}}   
+
+                     {% for ar in anexos %}
+                        <p><a download href="{{ ar.arquivo.url }}">{{ ar.arquivo.url }}</a></p>
+                      {% endfor %}
+
+
+                 {% else %}
+                    {{anexo_form.arquivo}}   
+
+                {% endif %}
+          
             </div>
+
             <div style="width: 30px !important;">
                 <label class="text-label" style=" margin-bottom: 8px;">Privado</label>
                 {{ documento_form.documento_privado }}
