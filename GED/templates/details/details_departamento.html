@@ -1,0 +1,53 @@
+{% extends "base-menu.html" %}
+{% block main %}
+
+<style>
+    .search-field {
+        margin-bottom: 20px;
+        display: flex;
+    }
+</style>
+
+<div class="search-field">
+
+    <form action="{% url 'dashboard_busca_documentos' %}" method="POST" class="form-inline my-2 my-lg-0">
+        {% csrf_token %}
+        <input name="consulta" class="form-control mr-sm-2" type="search" placeholder="Pesquise..." aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Buscar</button>
+    </form>
+
+    <div style="margin-left: 40%">
+        <form action="{% url 'create_departamentos' %}">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                Inserir Novo Departamento
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <col width="30%">
+        <col width="70%">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ramal</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+        </thead>
+        {% for dpt in departamento %}
+        <tbody>
+            <tr>
+                <td>{{ dpt.nome }}</td>
+                <td>{{ dpt.ramal }}</td>
+                <td><a href="{% url 'update_departamento' dpt.id %}"><button type="button" class="btn btn-outline-primary">Alterar</button></a></td>
+                <td><a href="{% url 'delete_departamento' dpt.id %}" onclick="return confirm('Deseja Remover {{ dpt.nome }} ?')"><button type="button" class="btn btn-outline-danger">Excluir</button></a></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
+{% endblock main %}

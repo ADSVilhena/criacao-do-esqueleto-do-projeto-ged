@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.db.models import Q
 from django.views.generic.edit import FormView
-from .models import Documento, Departamento, Pessoa,  Funcao
-from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms
+from .models import Documento, Departamento, Pessoa,  Funcao, Anexo
+from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm
 
 def login_user(request):
     next = request.GET.get('next', '/dashboard') 
@@ -76,22 +76,26 @@ def dashboard_busca_documento(request):
 def create_documents(request):
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES)
+        anexo_form = AnexoForm(request.POST, request.FILES)
+
         if documento_form.is_valid():
+            documento_model = documento_form.save(commit=False)
+            documento_model.pessoa_usuario = request.user
+            documento_model.save()
             for field in request.FILES.keys():
                 for formfile in request.FILES.getlist(field):
-                    arquivo = Documento(arquivo=formfile)
-                    arquivo.save()
+                    anexo_form = Anexo(arquivo=formfile, documento = documento_model)
+                    anexo_form.save()
+            
+            return redirect('dashboard_documentos')
                 
-                documento_model = documento_form.save(commit=False)
-                documento_model.pessoa_usuario = request.user
-                documento_model.save()
-                return redirect('dashboard_documentos')
         else:
             context = {'documento_form':documento_form}
             return render(request, 'forms/document_form.html', context)
     else:
         documento_form = DocumentoForms()
-        context = {'documento_form':documento_form}
+        anexo_form = AnexoForm()
+        context = {'documento_form':documento_form, 'anexo_form':anexo_form}
         return render(request, 'forms/document_form.html', context)
 
 @login_required
@@ -105,15 +109,24 @@ def update_documento(request, id):
     # else:
     #     context = {'documento_form':documento_form}
     #     return render(request, 'forms/document_form.html', context)
-
-    documento = Documento.objects.get (id=id)
+    documento = Documento.objects.get(id=id)
+    anexos = Anexo.objects.select_related('documento').filter(documento__id=id)
     documento_form = DocumentoForms(instance=documento)
+    anexo_form = AnexoForm(anexos)
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES, instance=documento)
+        anexo_form = AnexoForm(request.POST, request.FILES, instance=anexo)
         if documento_form.is_valid():
-            documento_form.save()
+            documento_model = documento_form.save(commit=False)
+            documento_model.save()
+            for field in request.FILES.keys():
+                for formfile in request.FILES.getlist(field):
+                    anexo_form = Anexo(arquivo=formfile, documento = documento_model)
+                    anexo_form.save()           
+#
             return redirect('dashboard_documentos')
-    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento})
+
+    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento, 'anexos': anexos})
 
 
 # def create_documents(request):

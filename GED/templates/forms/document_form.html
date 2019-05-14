@@ -45,17 +45,18 @@
                 <input value ="{{ user.username }}" type="text" class="form-control" />
               </div>
             </div>
-          
             {% endif %}
-            
             
 
         </div>
 
         <div  style="display: flex;">
             <div style="margin-right: 5%;">
+
                 <label class="text-label">Referente a</label>
-                {{ documento_form.arquivo }}
+                {% for ar in anexos %}
+                <a class="btn btn-outline-secondary" download href="{{ ar.arquivo.url }}">{{ ar.arquivo.url }}</a>
+                {% endfor %}          
             </div>
             <div style="width: 30px !important;">
                 <label class="text-label" style=" margin-bottom: 8px;">Privado</label>

@@ -53,9 +53,8 @@ class Documento(models.Model):
 
 class Anexo(models.Model):
     documento = models.ForeignKey(Documento, on_delete=models.PROTECT)
-    arquivo = models.FileField()
-    def __str__(self):
-        return self.nome
+    arquivo = models.FileField(upload_to='uploads/', blank=True)
+   
 
 class Documento_Visibilidade(models.Model):
     class Meta:
