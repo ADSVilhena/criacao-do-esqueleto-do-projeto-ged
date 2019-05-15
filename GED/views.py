@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.db.models import Q
 from django.views.generic.edit import FormView
-from .models import Documento, Departamento, Pessoa,  Funcao, Anexo
-from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm
+from .models import Documento, Departamento, Pessoa,  Funcao, Anexo, Documento_Visibilidade
+from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm, SharingForm
 
 def login_user(request):
     next = request.GET.get('next', '/dashboard') 
@@ -77,7 +77,7 @@ def create_documents(request):
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES)
         anexo_form = AnexoForm(request.POST, request.FILES)
-
+        sharing_form = SharingForm(request.POST)
         if documento_form.is_valid():
             documento_model = documento_form.save(commit=False)
             documento_model.pessoa_usuario = request.user
@@ -87,36 +87,33 @@ def create_documents(request):
                     anexo_form = Anexo(arquivo=formfile, documento = documento_model)
                     anexo_form.save()
             
+            sharing_form = Documento_Visibilidade(documento = documento_model)
+            sharing_form.save()
+
             return redirect('dashboard_documentos')
                 
         else:
             context = {'documento_form':documento_form}
             return render(request, 'forms/document_form.html', context)
     else:
+        sharing_form = SharingForm()
         documento_form = DocumentoForms()
         anexo_form = AnexoForm()
-        context = {'documento_form':documento_form, 'anexo_form':anexo_form}
+        context = {'documento_form':documento_form, 'anexo_form':anexo_form, 'sharing_form':sharing_form}
         return render(request, 'forms/document_form.html', context)
 
 @login_required
 def update_documento(request, id):
-    # documento = Documento.objects.get (id=id)
-    # documento_form = DocumentoForms(request.POST,  instance=documento)
-    # if documento_form.is_valid():
-    #     documento_model = documento_form.save(commit=False)
-    #     documento_model.save()
-    #     return redirect('dashboard_documentos')
-    # else:
-    #     context = {'documento_form':documento_form}
-    #     return render(request, 'forms/document_form.html', context)
     documento = Documento.objects.get(id=id)
     anexos = Anexo.objects.select_related('documento').filter(documento__id=id)
     documento_form = DocumentoForms(instance=documento)
     anexo_form = AnexoForm(request.POST, request.FILES)
-
+    sharing = Documento_Visibilidade.objects.all()
+    sharing_form = SharingForm(request.POST)
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES, instance=documento)
         anexo_form = AnexoForm(request.POST, request.FILES)
+        sharing_form = SharingForm(request.POST, instance=sharing)
         if documento_form.is_valid():
             documento_model = documento_form.save(commit=False)
             documento_model.save()
@@ -124,18 +121,14 @@ def update_documento(request, id):
                 for formfile in request.FILES.getlist(field):
                     anexo_form = Anexo(arquivo=formfile, documento = documento_model)
                     anexo_form.save()           
-#
+
+            sharing_form = Documento_Visibilidade(documento = documento_model)
+            sharing_form.save()
             return redirect('dashboard_documentos')
 
-    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento, 'anexo_form': anexo_form, 'anexos': anexos})
+    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento, 'anexo_form': anexo_form, 'anexos': anexos,'sharing_form':sharing_form, 'sharing':sharing})
 
 
-# def create_documents(request):
-#     form = DocumentoForms(request.POST, request.FILES)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('dashboard_documentos')
-#     return render(request, 'forms/document_form.html', {'form':form})
 
 @login_required
 def dashboard_departamentos(request):
@@ -156,14 +149,6 @@ def create_departamentos(request):
         departamento_form = DepartamentoForms()
         context = {'departamento_form':departamento_form}
         return render(request, 'forms/departamento_form.html', context)
-
-# @login_required
-# def create_departamentos(request):
-#     form = DepartamentoForms(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('dashboard_departamentos')
-#     return render(request, 'forms.html', {'form': form})
 
 @login_required
 def dashboard_pessoas(request):
@@ -208,42 +193,12 @@ def delete_documento(request, id):
     documento.delete()
     return redirect('dashboard_documentos')
 
-#@login_required    
-#def update_documento(request, id):
-#    documento = Documento.objects.get (id=id)
-#    form = DocumentoForms(request.POST or None,  instance=documento)
-#    if form.is_valid():
-#        form.save()
-#        return redirect('dashboard_documentos')
-#    return render(request, 'forms.html', {'form': form, 'documento': documento})
-
-#@login_required
-#def delete_documento(request, id):
-#    documento = Documento.objects.get(id=id)
-#    if request.method == 'POST':
-#        documento.delete()
-#        return redirect('dashboard_documentos')
-#    return render(request, 'message.html', {'documento': documento})    
-
 @login_required
 def delete_pessoa(request, id):
     pessoa = Pessoa.objects.get (id=id)
     pessoa.delete()
     return redirect('dashboard_pessoas')
 
-#  if request.method == 'POST':
-#         departamento_form = DepartamentoForms(request.POST)
-#         if departamento_form.is_valid():
-#             departamento_model = departamento_form.save(commit=False)
-#             departamento_model.save()
-#             return redirect('dashboard_departamentos')
-#         else:
-#             context = {'departamento_form':departamento_form}
-#             return render(request, 'forms/departamento_form.html', context)
-#     else:
-#         departamento_form = DepartamentoForms()
-#         context = {'departamento_form':departamento_form}
-#         return render(request, 'forms/departamento_form.html', context)
 
 @login_required
 def update_departamento(request, id):

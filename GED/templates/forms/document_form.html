@@ -56,33 +56,33 @@
                 {% if documento %}
                 <label class="text-label">Referente a</label>
                 {{anexo_form.arquivo}}   
-
                      {% for ar in anexos %}
                         <p><a download href="{{ ar.arquivo.url }}">{{ ar.arquivo.url }}</a></p>
                       {% endfor %}
-
-
                  {% else %}
                     {{anexo_form.arquivo}}   
-
                 {% endif %}
-          
             </div>
-
             <div style="width: 30px !important;">
                 <label class="text-label" style=" margin-bottom: 8px;">Privado</label>
                 {{ documento_form.documento_privado }}
             </div>
         </div>
-
+        {% if documento %}
         <label class="text-label">Compartihar para Usuario</label>
-        {{ documento_form.pessoa_compartilha }}
+        {{sharing_form.destinatario}}   
+             {% for share in sharing %}
+                <p> {{ share.destinatario  }}</p>
+              {% endfor %}
+         {% else %}
+            {{sharing_form.destinatario}}   
+        {% endif %}
         <hr />
         <button type="submit" class="btn btn-primary">Salvar</button>
         {% if documento %}
         <a href="{% url 'delete_documento' documento.id %}"
                         onclick="return confirm('Deseja Remover {{ documento.nome }} ?')"><button type="button"
-                            class="btn btn-outline-danger">Excluir</button></a> {% endif %}
+                            class="btn btn-danger">Excluir</button></a> {% endif %}
 
 </form>
 </div>

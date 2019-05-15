@@ -35,6 +35,17 @@ class AnexoForm(ModelForm):
         model = models.Anexo
         fields = '__all__'
             
+class SharingForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = models.Documento_Visibilidade
+        fields = '__all__'
+            
+
 class DepartamentoForms(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
