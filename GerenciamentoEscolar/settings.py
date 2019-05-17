@@ -65,7 +65,8 @@ ADMIN_REORDER = (
     {'app': 'GED', 'label': 'Administrativo',
      'models': ('GED.Pessoa',
      'GED.Departamento',
-     'GED.Funcao')
+     'GED.Funcao',
+     'GED.Documento_Visibilidade')
     },
     {'app': 'auth', 'label': 'Usuários',
      'models': ('auth.User',

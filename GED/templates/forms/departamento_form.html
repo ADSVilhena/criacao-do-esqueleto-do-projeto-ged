@@ -25,7 +25,11 @@
         <hr />
         {{departamento_form.as_p}}
         <hr />
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="submit" class="btn btn-primary" style="width: 150px;">Salvar</button>
+        {% if departamento %}
+        <a href="{% url 'delete_documento' documento.id %}" style="float:right;"
+                        onclick="return confirm('Deseja Remover {{ departamento.nome }} ?')"><button type="button"
+                            class="btn btn-danger">Excluir</button></a> {% endif %}
 </form>
 </div>
 
