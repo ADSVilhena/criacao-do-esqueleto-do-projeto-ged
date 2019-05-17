@@ -1,5 +1,5 @@
 {% extends "base-menu.html" %}
-
+{% load crispy_forms_tags %}
 {% block main %}
 
 <div class="modal fade" id="funcaoModal" tabindex="-1" role="dialog" aria-labelledby="departamentoModalLabel"
@@ -50,10 +50,15 @@
 <form method="post" enctype="multipart/form-data"> {% csrf_token %}
     <div class="container mt-3 mb-3">
         {% if pessoa_form.errors %}
-            {{ pessoa_form.errors }}
+            {{pessoa_form.errors}}
         {% endif %}
+
+        {% if user_form.errors %}
+            {{user_form.errors}}
+        {% endif %}
+
         <h2>Informações sobre o Pessoa</h2>
-        
+
         <hr />
         <div class="row">
             <div class="col">
@@ -70,7 +75,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-5">
             <div class="col">
                 <label class="text-label">Departamento: </label>
                 {{pessoa_form.departamento}}
@@ -78,6 +83,31 @@
             <div class="col">
                 <label class="text-label">Função: </label>
                 {{pessoa_form.funcao}}
+            </div>
+        </div>
+
+        <h2>Informações sobre o Usuário</h2>
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <label class="text-label">Nome de Usuario: </label>
+                {{user_form.username}}
+            </div>
+            <div class="col">
+                <label class="text-label">Email: </label>
+                {{user_form.email}}
+            </div>
+            <div class="col">
+                <label class="text-label">Senha: </label>
+                {{user_form.password}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <label class="text-label">Grupos: </label>
+                {{user_form.groups}}
             </div>
         </div>
 
@@ -92,8 +122,8 @@
                 {% endif %}
             </div>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 
 
 {% endblock main %}

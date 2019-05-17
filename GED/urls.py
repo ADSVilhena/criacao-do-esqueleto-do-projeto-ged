@@ -31,5 +31,6 @@ urlpatterns = [
     path('accounts/auth/', views.auth_user, name='auth_user'),
     path('accounts/logout/', views.logout_user, name='logout_user'),
 
+    path('users/', views.create_user, name='users'),
     path('users/create/', views.create_user, name='create_user'),
 ]

@@ -3,7 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.db.models import Q
+from datetime import datetime
 from django.views.generic.edit import FormView
+from django.contrib.auth.models import User
 from .models import Documento, Departamento, Pessoa,  Funcao, Anexo
 from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm, UserForm
 
@@ -174,29 +176,54 @@ def dashboard_pessoas(request):
 def create_pessoa(request):
     if request.method == 'POST':
         pessoa_form = PessoaForms(request.POST)
-        if pessoa_form.is_valid():
+        user_form = UserForm(request.POST)
+
+        if pessoa_form.is_valid() and user_form.is_valid():
             pessoa_model = pessoa_form.save(commit=False)
+            user_model = user_form.save(commit=False)
+            user_model.is_admin = True
+
+            user_model.groups.add(request.POST['groups'])
+            user_model.save()
+
+            user_model.save()
+            
+            pessoa_model.user = user_model
             pessoa_model.save()
             return redirect('dashboard_pessoas')
         else:
-            context = {'pessoa_form' : pessoa_form}
+            context = {'pessoa_form': pessoa_form, 'user_form': user_form}
             return render(request, 'forms/pessoa_form.html', context)
     else:
         pessoa_form = PessoaForms()
-        context = {'pessoa_form':pessoa_form}
+        user_form = UserForm()
+        context = {'pessoa_form':pessoa_form, 'user_form': user_form}
         return render(request, 'forms/pessoa_form.html', context)
 
 @login_required
 def update_pessoa(request, id):
     pessoa = Pessoa.objects.get (id=id)
-    pessoa_form = PessoaForms(request.POST or None,  instance=pessoa)
+    user = User.objects.get(id=pessoa.user.id)
 
-    if pessoa_form.is_valid():
+    pessoa_form = PessoaForms(request.POST or None,  instance=pessoa)
+    user_form = UserForm(request.POST or None, instance=user, initial={'groups': user.groups.first()})
+
+    if pessoa_form.is_valid() and user_form.is_valid():
         pessoa_model = pessoa_form.save(commit=False)
         pessoa_model.save()
+        
+        user_model = user_form.save(commit=False)
+        user_model.save()
+
+        user_model.groups.clear()
+        user_model.save()
+
+        user_model.groups.add(request.POST['groups'])
+        user_model.save()
+        
         return redirect('dashboard_pessoas')
     else:
-        context = {'pessoa_form':pessoa_form}
+        context = {'pessoa_form':pessoa_form, 'user_form': user_form}
         return render(request, 'forms/pessoa_form.html', context)
     
     return render(request, 'forms/pessoa_form.html', {'pessoa_form': pessoa_form, 'pessoa': pessoa})

@@ -3,11 +3,12 @@ from django import forms
 
 from . import models
 from django.forms.widgets import FileInput
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.admin.widgets import AdminDateWidget
 
 
 class DocumentoForms(ModelForm):
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
@@ -72,7 +73,9 @@ class FuncaoForms(ModelForm):
         model = models.Funcao
         fields = '__all__'
 
-class UserForm(ModelForm):
+class UserForm(ModelForm):    
+    groups = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
@@ -82,6 +85,9 @@ class UserForm(ModelForm):
             self.fields['user_permissions'].widget = forms.HiddenInput()
             self.fields['is_staff'].widget = forms.HiddenInput()
             self.fields['date_joined'].widget = forms.HiddenInput()
+            self.fields['date_joined'].required = False
+
+
             self.fields['is_active'].widget = forms.HiddenInput()
             field.widget.attrs.update({'class': 'form-control'})
 
