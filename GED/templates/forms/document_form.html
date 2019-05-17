@@ -58,7 +58,7 @@
                 {% if documento %}
                 {{anexo_form.arquivo}}   
                      {% for ar in anexos %}
-                        <p><a download href="{{ ar.arquivo.url }}">{{ ar.arquivo }}</a></p>
+                        <p><a class="btn btn-outline-info" download href="{{ ar.arquivo.url }}">{{ ar.arquivo }}</a></p>
                       {% endfor %}
                  {% else %}
                     {{anexo_form.arquivo}}   
@@ -83,14 +83,14 @@
         </div>
 
         <hr />
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="submit" class="btn btn-primary" style="width: 150px;">Salvar</button>
         {% if saved %}
 <div class="alert alert-success container mt-4" role="alert">
     O evento foi salvo com sucesso!
 </div>
 {% endif %}
         {% if documento %}
-        <a href="{% url 'delete_documento' documento.id %}"
+        <a href="{% url 'delete_documento' documento.id %}" style="float:right;"
                         onclick="return confirm('Deseja Remover {{ documento.nome }} ?')"><button type="button"
                             class="btn btn-danger">Excluir</button></a> {% endif %}
 

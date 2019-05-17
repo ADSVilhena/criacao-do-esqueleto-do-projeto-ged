@@ -2,35 +2,6 @@
 
 {% block main %}
 
-<div class="modal fade" id="funcaoModal" tabindex="-1" role="dialog" aria-labelledby="departamentoModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="departamentoModalLabel">Informações sobre o Departamento</h5>
-              <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-                <div class="container mt-3 mb-3">
-                    {% if departamento_form.errors %}
-                    {{ departamento_form.errors }}
-                    {% endif %}
-                    <h2>Informações sobre o Departamento</h2>
-                    <hr />
-                    {{departamento_form.nome}}
-                    <hr />
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-            </form>
-              
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                    
-                    </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
 
 <style>
     .text-label {
@@ -71,26 +42,19 @@
             <div style="margin-right: 5%;">
                 <label class="text-label">Departamento: </label>
                 {{pessoa_form.departamento}}
-                <a data-toggle="modal" data-target="#departamentoModal">
-                    <img src="/media/add.png" alt="" height="15" style="margin-top: 5px; margin-left: 5px;">
-                </a>
             </div>
             <div>
                 <label class="text-label">Função: </label>
                 {{pessoa_form.funcao}}
-                
-                <a href="{% url 'create_funcao' %}" data-toggle="modal" data-target="#funcaoModal">
-                    <img src="/media/add.png" alt="" height="15" style="margin-top: 5px; margin-left: 5px;">
-                </a>
             </div>
         </div>
 
         <label class="text-label">Usuário: </label>
         {{pessoa_form.user}}
         <hr />
-        <button type="submit" class="btn btn-success">Salvar</button>
+        <button type="submit" class="btn btn-success" style="width: 150px;">Salvar</button>
         {% if pessoas %}
-        <a href="{% url 'delete_pessoa' pessoa.id %}" onclick="return confirm('Deseja Remover {{ pessoa.nome }}')"><button type="button" class="btn btn-outline-danger">Excluir</button></a>      {% endif %}
+        <a href="{% url 'delete_pessoa' pessoa.id %}" style="float: right;" onclick="return confirm('Deseja Remover {{ pessoa.nome }}')"><button type="button" class="btn btn-outline-danger">Excluir</button></a>      {% endif %}
 
 </form>
 </div>
