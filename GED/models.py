@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+
 from django.db import models
 
 class Departamento(models.Model):
@@ -35,7 +37,8 @@ class Documento(models.Model):
     arquivo = models.FileField(upload_to='uploads/', blank=True)
     pessoa_dono = models.ForeignKey(Pessoa, related_name='pessoa_doc_dono', verbose_name="Referente a", on_delete=models.CASCADE, null = True)
     pessoa_usuario = models.ForeignKey(User, related_name='pessoa_doc_usuario', verbose_name="Responsável", on_delete=models.CASCADE, null = True)
-    pessoa_compartilha = models.ForeignKey(User, verbose_name="Compartihar", on_delete=models.CASCADE, null = True)
+    pessoa_compartilha = models.ForeignKey(Pessoa, verbose_name="Compartihar", on_delete=models.CASCADE, null = True)
+    grupo = models.ForeignKey(Group, verbose_name="Compartihar", on_delete=models.CASCADE, null = True)
     documento_privado = models.BooleanField(default=False)
 
     @property
@@ -52,7 +55,7 @@ class Documento(models.Model):
     
 
 class Anexo(models.Model):
-    documento = models.ForeignKey(Documento, on_delete=models.PROTECT)
+    documento = models.ForeignKey(Documento, on_delete=models.CASCADE)
     arquivo = models.FileField(upload_to='uploads/', blank=True)
    
 
@@ -60,6 +63,6 @@ class Documento_Visibilidade(models.Model):
     class Meta:
         verbose_name = 'Visibilidade'
         verbose_name_plural = 'Visibilidades'
-    destinatario = models.ForeignKey(User, on_delete = models.PROTECT, default=None, blank=True, null = True)
+    destinatario = models.ManyToManyField(User, default=None, blank=True)
     documento = models.ForeignKey(Documento, on_delete = models.PROTECT, default=None, blank=True, null = True)
 

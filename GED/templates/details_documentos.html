@@ -27,13 +27,18 @@
 <div class="table-responsive">
     <table class="table  table-hover">
         <thead>
+            <col width="40%">
+            <col width="40%">
+            <col width="30%">
+            <col width="30%">
+            <col width="30%">
+            <col width="">
             <tr>
                 <th>Nome</th>
                 <th>Descricao</th>
                 <th>Arquivo</th>
                 <th>Data</th>
                 <th>Usuario</th>
-                <th>Compartihado</th>
                 <th>Privado</th>
 
                 <th></th>
@@ -55,7 +60,6 @@
                 {% endif %}
                 <td>{{ doc.data_cadastro|date:"d/m/y"}}</td>
                 <td>{{ doc.pessoa_usuario }}</td>
-                <td>{{ doc.pessoa_compartilha }}</td>
                     
 
                 {% if doc.documento_privado is True %}

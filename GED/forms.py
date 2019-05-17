@@ -9,10 +9,13 @@ from django.contrib.admin.widgets import AdminDateWidget
 class DocumentoForms(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['pessoa_compartilha'] = forms.ModelChoiceField(queryset=models.Pessoa.objects.filter(user__username__isnull  = False))
+
         for key, field in self.fields.items():
             self.fields['pessoa_dono'].required = False
             self.fields['pessoa_compartilha'].required = False
             self.fields['pessoa_usuario'].required = False
+            self.fields['grupo'].required = False
 
 
             if not isinstance(field.widget, FileInput):

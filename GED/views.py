@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.views.generic.edit import FormView
 from .models import Documento, Departamento, Pessoa,  Funcao, Anexo, Documento_Visibilidade
@@ -57,12 +58,12 @@ def detalhes_documentos(request, id):
 
 @login_required
 def dashboard(request):
-    documentos = Documento.objects.filter(pessoa_usuario=request.user) | Documento.objects.filter(pessoa_compartilha=request.user) | Documento.objects.filter(documento_privado=False).order_by('-data_cadastro')
+    documentos = Documento.objects.filter(pessoa_usuario=request.user) | Documento.objects.filter(pessoa_compartilha__user=request.user) | Documento.objects.filter(documento_privado=False) | Documento.objects.filter(pessoa_compartilha__user__isnull = True ) .order_by('-data_cadastro')
     return render(request, 'dashboard.html', {'documentos':documentos})
 
 @login_required
 def dashboard_documentos(request):
-    documentos = Documento.objects.filter(pessoa_usuario=request.user) | Documento.objects.filter(pessoa_compartilha=request.user) | Documento.objects.filter(documento_privado=False)
+    documentos = Documento.objects.filter(pessoa_usuario=request.user) | Documento.objects.filter(pessoa_compartilha__user=request.user) | Documento.objects.filter(documento_privado=False) | Documento.objects.filter(pessoa_compartilha__user__isnull = True ) .order_by('-data_cadastro')
     return render(request, 'details_documentos.html', {'documentos':documentos})
 
 @login_required
@@ -77,7 +78,6 @@ def create_documents(request):
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES)
         anexo_form = AnexoForm(request.POST, request.FILES)
-        sharing_form = SharingForm(request.POST)
         if documento_form.is_valid():
             documento_model = documento_form.save(commit=False)
             documento_model.pessoa_usuario = request.user
@@ -86,10 +86,6 @@ def create_documents(request):
                 for formfile in request.FILES.getlist(field):
                     anexo_form = Anexo(arquivo=formfile, documento = documento_model)
                     anexo_form.save()
-            
-            sharing_form = Documento_Visibilidade(documento = documento_model)
-            sharing_form.save()
-
             return redirect('dashboard_documentos')
                 
         else:
@@ -108,12 +104,9 @@ def update_documento(request, id):
     anexos = Anexo.objects.select_related('documento').filter(documento__id=id)
     documento_form = DocumentoForms(instance=documento)
     anexo_form = AnexoForm(request.POST, request.FILES)
-    sharing = Documento_Visibilidade.objects.all()
-    sharing_form = SharingForm(request.POST)
     if request.method == 'POST':
         documento_form = DocumentoForms(request.POST, request.FILES, instance=documento)
         anexo_form = AnexoForm(request.POST, request.FILES)
-        sharing_form = SharingForm(request.POST, instance=sharing)
         if documento_form.is_valid():
             documento_model = documento_form.save(commit=False)
             documento_model.save()
@@ -121,12 +114,9 @@ def update_documento(request, id):
                 for formfile in request.FILES.getlist(field):
                     anexo_form = Anexo(arquivo=formfile, documento = documento_model)
                     anexo_form.save()           
-
-            sharing_form = Documento_Visibilidade(documento = documento_model)
-            sharing_form.save()
             return redirect('dashboard_documentos')
 
-    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento, 'anexo_form': anexo_form, 'anexos': anexos,'sharing_form':sharing_form, 'sharing':sharing})
+    return render(request, 'forms/document_form.html', {'documento_form': documento_form, 'documento': documento, 'anexo_form': anexo_form, 'anexos': anexos})
 
 
 
