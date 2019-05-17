@@ -33,7 +33,7 @@ body{
 </style>
 <body>
     </header>
-        <div class="navbar navbar-dark bg-dark shadow-sm" style="margin-bottom: 20px;">
+        <div class="navbar navbar-dark bg-dark shadow-sm">
             <div class="container d-flex justify-content-between">
                 <a href="http://localhost:8000/" class="navbar-brand d-flex align-items-center">
                     <strong>Gerenciamento Eletronico de Documentos</strong>
@@ -52,7 +52,7 @@ body{
         </div>
     </header>
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-top: 20px;">
             <span style="font-size:1rem; color:#6c757d !important; text-align:left">Menu</span>
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
@@ -104,7 +104,7 @@ body{
             </div>
         </nav>
         
-        <main role="main col-md-10" style="width: 80%;">
+        <main role="main col-md-10" style="width: 80%; padding-top: 20px">
             {% block main %}
             {% endblock main %}
         </main>
@@ -112,10 +112,14 @@ body{
 
     <footer class="text-muted">
         <div class="container">
-            <p class="float-right">
-                <a href="#">Voltar ao topo</a>
-            </p>
-            <p>GED &copy; Allison e Eclesio</p>
+            <div class="row">
+                <div class="col">
+                    <p class="float-right">
+                        <a href="#">Voltar ao topo</a>
+                    </p>
+                    <p>GED &copy; Allison e Eclesio</p>
+                </div>
+            </div>
         </div>
     </footer>
 

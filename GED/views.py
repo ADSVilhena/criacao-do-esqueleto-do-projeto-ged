@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 from django.views.generic.edit import FormView
 from .models import Documento, Departamento, Pessoa,  Funcao, Anexo
-from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm
+from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm, UserForm
 
 def login_user(request):
     next = request.GET.get('next', '/dashboard') 
@@ -306,3 +306,12 @@ def delete_funcao(request, id):
     funcao = Funcao.objects.get(id=id)
     funcao.delete()
     return redirect('dashboard_funcao')
+
+@login_required
+def create_user(request):
+    if request.method == 'POST':
+        return redirect('/')
+    else:
+        user_form = UserForm()
+        context = {'user_form': user_form}
+        return render(request, 'forms/usuario_form.html', context)

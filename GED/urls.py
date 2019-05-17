@@ -27,9 +27,9 @@ urlpatterns = [
     path('dashboard/funcao/update/<int:id>/', views.update_funcao, name='update_funcao'),
     path('dashboard/funcao/delete/<int:id>/', views.delete_funcao, name='delete_funcao'),
 
-    
-
     path('accounts/login/', views.login_user, name='login_user'),
     path('accounts/auth/', views.auth_user, name='auth_user'),
-    path('accounts/logout/', views.logout_user, name='logout_user')
+    path('accounts/logout/', views.logout_user, name='logout_user'),
+
+    path('users/create/', views.create_user, name='create_user'),
 ]

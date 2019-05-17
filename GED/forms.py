@@ -3,6 +3,7 @@ from django import forms
 
 from . import models
 from django.forms.widgets import FileInput
+from django.contrib.auth.models import User
 from django.contrib.admin.widgets import AdminDateWidget
 
 
@@ -52,7 +53,7 @@ class PessoaForms(ModelForm):
         for key, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
             self.fields['endereco'].required = False
-            self.fields['email'].required = False
+            self.fields['email'].widget = forms.HiddenInput()
             self.fields['funcao'].required = False
             self.fields['user'].required = False
             self.fields['departamento'].required = False
@@ -69,4 +70,21 @@ class FuncaoForms(ModelForm):
          
     class Meta:
         model = models.Funcao
+        fields = '__all__'
+
+class UserForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            self.fields['password'].label = "Senha"
+            self.fields['last_login'].widget = forms.HiddenInput()
+            self.fields['is_superuser'].widget = forms.HiddenInput()
+            self.fields['user_permissions'].widget = forms.HiddenInput()
+            self.fields['is_staff'].widget = forms.HiddenInput()
+            self.fields['date_joined'].widget = forms.HiddenInput()
+            self.fields['is_active'].widget = forms.HiddenInput()
+            field.widget.attrs.update({'class': 'form-control'})
+
+    class Meta:
+        model = User
         fields = '__all__'
