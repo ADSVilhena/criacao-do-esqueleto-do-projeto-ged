@@ -30,4 +30,9 @@ urlpatterns = [
     path('accounts/login/', views.login_user, name='login_user'),
     path('accounts/auth/', views.auth_user, name='auth_user'),
     path('accounts/logout/', views.logout_user, name='logout_user'),
+
+    path('groups/', views.dashboard_group, name='dashboard_group'),
+    path('groups/create/', views.group_create, name='groups_create'),
+    path('groups/update/<int:id>/', views.update_group, name='update_group'),
+    path('groups/delete/<int:id>/', views.delete_group, name='delete_group'),
 ]

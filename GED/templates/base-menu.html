@@ -52,7 +52,7 @@ body{
         </div>
     </header>
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-top: 20px;">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar" style="padding-top: 20px; height: 100vh">
             <span style="font-size:1rem; color:#6c757d !important; text-align:left">Menu</span>
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
@@ -81,20 +81,19 @@ body{
                         </a>
                     </li>
                     <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard_funcao' %}">
-                                <span data-feather="layers"></span>
-                                Função
-                            </a>
-                        </li>
+                        <a class="nav-link" href="{% url 'dashboard_funcao' %}">
+                            <span data-feather="layers"></span>
+                            Função
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard_group' %}">
+                            <span data-feather="layers"></span>
+                            Grupos
+                        </a>
+                    </li>
                 </ul>
-    
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Utimas Ações</span>
-                    <a class="d-flex align-items-center text-muted" href="#">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                </h6>
-                
+
             </div>
         </nav>
         

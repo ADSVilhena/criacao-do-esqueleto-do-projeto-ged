@@ -1,0 +1,45 @@
+{% extends "base-menu.html" %}
+
+{% block main %}
+
+<style>
+    .text-label {
+        margin-bottom: 5px;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+</style>
+
+
+{% if saved %}
+<div class="alert alert-success container mt-4" role="alert">
+    O grupo foi salvo com sucesso
+</div>
+{% endif %}
+<form method="post" enctype="multipart/form-data"> 
+    {% csrf_token %}
+    <div class="container mt-3 mb-3">
+        {% if group_form.errors %}
+            {{group_form.errors}}
+        {% endif %}
+
+        <h2>Informações sobre o Grupo</h2>
+
+        <div class="row">
+            <div class="col">
+                <label class="text-label">Nome do Grupo: </label>
+                {{group_form.name}}
+            </div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-success">Salvar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock main %}

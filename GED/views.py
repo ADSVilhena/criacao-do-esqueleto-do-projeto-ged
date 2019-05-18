@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group, User
 from django.db.models import Q
 from django.views.generic.edit import FormView
 from .models import Documento, Departamento, Pessoa,  Funcao, Anexo, Documento_Visibilidade
-from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm, SharingForm, UserForm
+from .forms import DocumentoForms, DepartamentoForms, PessoaForms, FuncaoForms, AnexoForm, SharingForm, UserForm, GroupForm
 
 def login_user(request):
     next = request.GET.get('next', '/dashboard') 
@@ -58,6 +58,7 @@ def detalhes_documentos(request, id):
 
 @login_required
 def dashboard(request):
+    print(request.user.groups.first())
     documentos = Documento.objects.filter(pessoa_usuario=request.user) | Documento.objects.filter(pessoa_compartilha__user=request.user) | Documento.objects.filter(documento_privado=False) | Documento.objects.filter(pessoa_compartilha__user__isnull = True ) .order_by('-data_cadastro')
     return render(request, 'dashboard.html', {'documentos':documentos})
 
@@ -276,3 +277,45 @@ def delete_funcao(request, id):
     funcao = Funcao.objects.get(id=id)
     funcao.delete()
     return redirect('dashboard_funcao')
+
+@login_required
+def dashboard_group(request):
+    grupos = Group.objects.all()
+    return render(request, 'details_groups.html', {'grupos': grupos})
+
+@login_required
+def group_create(request):
+    if request.method == 'POST':
+        group_form = GroupForm(request.POST)
+        if group_form.is_valid():
+            group_form = group_form.save(commit=False)
+            group_form.save()
+            return redirect('dashboard_group')
+        else:
+            context = {'funcao_form' : group_form}
+            return render(request, 'forms/group_form.html', context)
+    else:
+        group_form = GroupForm()
+        context = {'group_form': group_form}
+        return render(request, 'forms/group_form.html', context)
+
+@login_required
+def update_group(request, id):
+    grupo = Group.objects.get (id=id)
+    group_form = GroupForm(request.POST or None,  instance=grupo)
+
+    if group_form.is_valid():
+        group_form = group_form.save(commit=False)
+        group_form.save()
+        return redirect('dashboard_group')
+    else:
+        context = {'group_form':group_form}
+        return render(request, 'forms/group_form.html', context)
+    
+    return render(request, 'forms/group_form.html', {'group_form': group_form, 'grupo': grupo})
+
+@login_required
+def delete_group(request, id):
+    grupo = Group.objects.get(id=id)
+    grupo.delete()
+    return redirect('dashboard_group')
